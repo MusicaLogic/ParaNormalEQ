@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="pZVhs0" name="ParaNormalEQ" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" companyName="MusicaLogic"
+              pluginVST3Category="EQ" pluginAAXCategory="1">
   <MAINGROUP id="HcZA06" name="ParaNormalEQ">
     <GROUP id="{88B39D6A-BC41-1044-70FA-1252A4B0F6AE}" name="Source">
       <GROUP id="{DCDCA7CF-8CC2-8457-3FCE-95DA183F9EAE}" name="UI">
@@ -61,9 +62,9 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" microphonePermissionNeeded="1">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="ParaNormalEQ_tests" macOSDeploymentTarget="12.0"
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ParaNormalEQ" macOSDeploymentTarget="12.0"
                        osxCompatibility="12.0 SDK"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="ParaNormalEQ_tests" macOSDeploymentTarget="12.0"
+        <CONFIGURATION isDebug="0" name="Release" targetName="ParaNormalEQ" macOSDeploymentTarget="12.0"
                        osxCompatibility="12.0 SDK"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
