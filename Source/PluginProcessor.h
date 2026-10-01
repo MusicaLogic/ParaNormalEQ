@@ -15,12 +15,14 @@
 #include "DSP/SpectrumAnalyzer.h"
 #include "DSP/SpectrumDataBuffer.h"
 #include <array>
+#include <atomic>
 
 //==============================================================================
 /**
 */
 class ParaNormalEQ_testsAudioProcessor  : public juce::AudioProcessor,
-                                            public juce::ChangeBroadcaster
+                                            public juce::ChangeBroadcaster,
+                                            private juce::AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
@@ -61,11 +63,19 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     void reset() override;
     
-    // DSP-related functions
-//    void setGain(std::size_t band, float gainDb);
-//    void setGains(const GraphicEQ::Gains& gains);
-//    float getGain(std::size_t band) const;
-//    GraphicEQ::Gains getGains() const;
+    //==============================================================================
+    // APVTS
+    //==============================================================================
+    juce::AudioProcessorValueTreeState& getAPVTS() noexcept { return apvts; }
+    const juce::AudioProcessorValueTreeState& getAPVTS() const noexcept { return apvts; }
+    
+    //==============================================================================
+    // EQ state adapter
+    //
+    // EQState is not the authoritative persistent state. These functions
+    // provide a convenient snapshot for the existing editor/UI code and write
+    // changes back into APVTS.
+    //==============================================================================
     EQState getEQState() const;
     void setEQState(const EQState& state);
     
@@ -78,9 +88,24 @@ public:
     }
 
 private:
+    //==============================================================================
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
+    void enforceFrequencyOrdering();
+    void updateDSPFromParameters();
+    EQState makeEQStateFromParameters() const;
+    
     static constexpr std::size_t NumChannels = 2;
+    
+    // APVTS is the single source of truth for all host-controllable EQ values.
+    juce::AudioProcessorValueTreeState apvts;
+    
     std::array<ParametricEQ, NumChannels> parametricEQ_;
-    EQState eqState;
+    // Set by parameterChanged() and consumed at the start of processBlock().
+    // This keeps DSP changes out of the parameter callback itself.
+    std::atomic<bool> parametersChanged { true };
+    
+//    EQState eqState;
     
     SpectrumAnalyzer inputSpectrumAnalyzer;
     SpectrumAnalyzer outputSpectrumAnalyzer;

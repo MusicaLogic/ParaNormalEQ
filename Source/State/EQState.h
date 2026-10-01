@@ -8,6 +8,14 @@
   ==============================================================================
 */
 
+//==============================================================================
+// Lightweight EQ snapshot used by the existing UI.
+//
+// APVTS is now the authoritative/persistent state. EQState is retained as a
+// convenient representation for the drawing/UI code and as an adapter at the
+// processor/UI boundary.
+//==============================================================================
+
 #pragma once
 
 #include <array>
