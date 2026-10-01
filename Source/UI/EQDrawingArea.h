@@ -206,7 +206,7 @@ private:
     static constexpr float maxQ = 10.0f;
 
     // Minimum horizontal distance between handles.
-    static constexpr float minimumButtonSeparation = 45.0f;
+    static constexpr float minimumButtonSeparation = 15.0f;
 
     static constexpr float buttonRadius = 11.0f;
 

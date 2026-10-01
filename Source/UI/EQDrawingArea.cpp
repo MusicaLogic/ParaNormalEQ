@@ -926,7 +926,7 @@ bool EQDrawingArea::isFrequencyAllowed(
         const float otherX =
             frequencyToX(other.frequency);
 
-        if (std::abs(x - otherX)
+        if ( ( (band>i) - (band<i) ) * (x - otherX)
             < minimumButtonSeparation)
         {
             return false;
